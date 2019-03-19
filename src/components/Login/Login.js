@@ -25,21 +25,17 @@ export default class Login extends Component {
 
     handleSubmit = event => {
         event.preventDefault();
-
         try {
             this.signIn(this.state.username, this.state.password);
-            this.setState({
-                user: JSON.parse(localStorage.getItem('user'))
-            })
-
-            console.log(this.state.user)
+            this.props.userHasAuthenticated(true);
+            this.props.history.push("/");
         }catch (e) {
             console.log(e)
         }
 
     }
 
-    async signIn(username, password) {
+    signIn = (username, password) => {
         let headers = {
             "Content-Type": "application/json",
         }
@@ -47,15 +43,15 @@ export default class Login extends Component {
             "username": username,
             "password": password
         }
-        return new Promise(resolve => {
-            return axios.post('http://localhost:8000/api/v1/login', data, headers)
+        axios.post('http://localhost:8000/api/v1/login', data, headers)
                 .then(response => {
-                    console.log(response);
                     localStorage.setItem('user', JSON.stringify(response.data));
-                }).catch(error => console.log(error));
-        }, reject => {
-
-        });
+                    return true;
+                }).catch(error => {
+                    console.log(error)
+                    localStorage.clear()
+                    return false;
+                });
     }
 
     render(){
