@@ -9,6 +9,7 @@ class App extends Component {
     constructor(props) {
         super(props)
         this.state = {
+            user: {},
             isAuthenticated: false,
             isAuthenticating: true
         }
@@ -40,6 +41,7 @@ class App extends Component {
         let user = JSON.parse(localStorage.getItem('user'))
         if(user != null) console.log(user.token)
         if(user == null) throw this.Exception("No current user")
+        this.setState({user: user});
     }
 
     Exception(message) {
@@ -51,7 +53,8 @@ class App extends Component {
     render() {
         const childProps = {
             isAuthenticated: this.state.isAuthenticated,
-            userHasAuthenticated: this.userHasAuthenticated
+            userHasAuthenticated: this.userHasAuthenticated,
+            user: this.state.user
         }
         return (
             !this.state.isAuthenticating &&
@@ -64,7 +67,13 @@ class App extends Component {
                         <Nav className="justify-content-end">
                             {
                                 this.state.isAuthenticated?
-                                    <NavItem onClick={this.handledLogout}>Logout</NavItem>
+                                    <Fragment>
+                                        <Link to="/posts" className="nav-link">Posts</Link>
+                                        <NavItem onClick={this.handledLogout}>
+                                            <Link to="" className="nav-link">Logout</Link>
+                                        </NavItem>
+                                    </Fragment>
+
                                     :
                                     <Fragment>
                                         <Link to="/register" className="nav-link">Register</Link>
