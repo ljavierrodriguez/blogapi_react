@@ -7,6 +7,7 @@ import App from './App';
 import 'jquery';
 import 'popper.js';
 import 'bootstrap';
+import 'toastr/build/toastr.css';
 import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(

@@ -1,4 +1,6 @@
 import React, {Component} from 'react';
+import {Button} from 'react-bootstrap';
+import {Link} from 'react-router-dom';
 import axios from 'axios';
 
 export default class Post extends Component {
@@ -36,6 +38,8 @@ export default class Post extends Component {
                 <tr key={p.id}>
                     <td>{ p.id }</td>
                     <td>{ p.title }</td>
+                    <td><Link to={"/posts/"+p.id+"/edit"} className="btn btn-info btn-sm">Edit</Link></td>
+                    <td><Button variant="danger" className="btn-sm">Delete</Button></td>
                 </tr>
             )
         });
@@ -45,6 +49,7 @@ export default class Post extends Component {
                 <tr>
                     <th>Id</th>
                     <th>Post Title</th>
+                    <th colSpan={2} width="10%">Actions</th>
                 </tr>
                 </thead>
                 <tbody>
